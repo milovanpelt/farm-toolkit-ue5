@@ -54,11 +54,11 @@ void FFarmEditorModule::ShutdownModule()
 
 TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-	FText WidgetText = FText::Format(
+	/*FText WidgetText = FText::Format(
 		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
 		FText::FromString(TEXT("FFarmEditorModule::OnSpawnPluginTab")),
 		FText::FromString(TEXT("FarmEditor.cpp"))
-		);
+		);*/
 
 	return SNew(SDockTab)
 		.TabRole(ETabRole::NomadTab)
@@ -68,10 +68,17 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
 			[
-				SNew(STextBlock)
-				.Text(WidgetText)
+				SNew(SButton)
+				.Text(LOCTEXT("Button", "Create Seed"))
+				.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
 			]
 		];
+}
+
+FReply FFarmEditorModule::CreateSeed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Seed Created"));
+	return FReply::Handled();
 }
 
 void FFarmEditorModule::PluginButtonClicked()

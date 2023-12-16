@@ -25,6 +25,8 @@ private:
 
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
 
+	FReply CreateSeed();
+
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
 };
