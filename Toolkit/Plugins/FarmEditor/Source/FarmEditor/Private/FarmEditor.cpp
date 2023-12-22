@@ -63,42 +63,81 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 	return SNew(SDockTab)
 	.TabRole(ETabRole::NomadTab)
 	[
-		// Put your tab content here!
 		SNew(SBorder)
 		.HAlign(HAlign_Center)
 		.VAlign(VAlign_Center)
 		[
-			SNew(SOverlay)
-			+ SOverlay::Slot()
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			.AutoHeight()
 			[
-				SNew(SButton)
-				.Text(LOCTEXT("Button", "Open Nested Window"))
-				.OnClicked_Raw(this, &FFarmEditorModule::OpenSeedWindow)
-			]
-			+ SOverlay::Slot()
-			.HAlign(HAlign_Right)
-			.VAlign(VAlign_Top)
-			[
-				SNew(SBorder)
-				.Visibility_Raw(this, &FFarmEditorModule::GetSeedWindowVisibility)
-				.Padding(FMargin(10.0f))
+				// Creating crops tab
+				SNew(SHorizontalBox)
+				+ SHorizontalBox::Slot()
+				.HAlign(HAlign_Left)
+				.AutoWidth()
 				[
-					SNew(SVerticalBox)
-					+ SVerticalBox::Slot()
-					[
-						SNew(STextBlock)
-						.Text(LOCTEXT("Adding Seeds", "Add Seeds"))
-					]
-					+ SVerticalBox::Slot()
-					[
-						SNew(SButton)
-						.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
-						.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
-					]
+					SNew(SButton)
+					.Text(FText::FromString("Add Crops"))
+					.OnClicked_Raw(this, &FFarmEditorModule::OpenCropWindow)
+				]
+
+				// Creating seeds tab
+				+ SHorizontalBox::Slot()
+				.Padding(FMargin(10, 0))
+				.AutoWidth()
+				[
+					SNew(SButton)
+					.Text(FText::FromString("Add Seeds"))
+					.OnClicked_Raw(this, &FFarmEditorModule::OpenSeedWindow)
 				]
 			]
-		]
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			[
+				// Seed and Crop windows
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				[
+					SNew(SOverlay)
+					+ SOverlay::Slot()
+					.VAlign(VAlign_Fill)
+					[
+						SNew(SBorder)
+						.HAlign(HAlign_Fill)
+						.VAlign(VAlign_Fill)
+						.Padding(FMargin(50.0f))
+						[
+							SNew(SButton)
+							.Text(LOCTEXT("CreateCropButton", "Create Crop"))
+							.OnClicked_Raw(this, &FFarmEditorModule::CreateCrop)
+						]
+					]
+					+ SOverlay::Slot()
+					.VAlign(VAlign_Fill)
+					[
+						SNew(SBorder)
+						.HAlign(HAlign_Fill)
+						.VAlign(VAlign_Fill)
+						.Padding(FMargin(50.0f))
+						[
+							SNew(SButton)
+							.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
+							.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
+						]
+					] // End of overlay slot
+				] // End of horizontalbox slot
+			
+			] // End of verticalbox slot
+
+		] // End of border slot
 	];
+}
+
+FReply FFarmEditorModule::CreateCrop()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Crop Created"));
+	return FReply::Handled();
 }
 
 FReply FFarmEditorModule::CreateSeed()
@@ -107,16 +146,18 @@ FReply FFarmEditorModule::CreateSeed()
 	return FReply::Handled();
 }
 
-FReply FFarmEditorModule::OpenSeedWindow()
+FReply FFarmEditorModule::OpenCropWindow()
 {
-	bShowNestedWindow = !bShowNestedWindow;
+	
 	return FReply::Handled();
 }
 
-EVisibility FFarmEditorModule::GetSeedWindowVisibility() const
+FReply FFarmEditorModule::OpenSeedWindow()
 {
-	return bShowNestedWindow ? EVisibility::Visible : EVisibility::Hidden;
+	
+	return FReply::Handled();
 }
+
 
 void FFarmEditorModule::PluginButtonClicked()
 {

@@ -25,13 +25,13 @@ private:
 
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
 
-	FReply CreateSeed();
-
-	FReply OpenSeedWindow();
-
-	EVisibility GetSeedWindowVisibility() const;
-private:
 	TSharedPtr<class FUICommandList> PluginCommands;
 
-	bool bShowNestedWindow = false;
+	FReply CreateCrop();
+
+	FReply CreateSeed();
+
+	FReply OpenCropWindow();
+
+	FReply OpenSeedWindow();
 };
