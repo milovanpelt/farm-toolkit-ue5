@@ -61,24 +61,61 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 		);*/
 
 	return SNew(SDockTab)
-		.TabRole(ETabRole::NomadTab)
+	.TabRole(ETabRole::NomadTab)
+	[
+		// Put your tab content here!
+		SNew(SBorder)
+		.HAlign(HAlign_Center)
+		.VAlign(VAlign_Center)
 		[
-			// Put your tab content here!
-			SNew(SBox)
-			.HAlign(HAlign_Center)
-			.VAlign(VAlign_Center)
+			SNew(SOverlay)
+			+ SOverlay::Slot()
 			[
 				SNew(SButton)
-				.Text(LOCTEXT("Button", "Create Seed"))
-				.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
+				.Text(LOCTEXT("Button", "Open Nested Window"))
+				.OnClicked_Raw(this, &FFarmEditorModule::OpenSeedWindow)
 			]
-		];
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Top)
+			[
+				SNew(SBorder)
+				.Visibility_Raw(this, &FFarmEditorModule::GetSeedWindowVisibility)
+				.Padding(FMargin(10.0f))
+				[
+					SNew(SVerticalBox)
+					+ SVerticalBox::Slot()
+					[
+						SNew(STextBlock)
+						.Text(LOCTEXT("Adding Seeds", "Add Seeds"))
+					]
+					+ SVerticalBox::Slot()
+					[
+						SNew(SButton)
+						.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
+						.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
+					]
+				]
+			]
+		]
+	];
 }
 
 FReply FFarmEditorModule::CreateSeed()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Seed Created"));
 	return FReply::Handled();
+}
+
+FReply FFarmEditorModule::OpenSeedWindow()
+{
+	bShowNestedWindow = !bShowNestedWindow;
+	return FReply::Handled();
+}
+
+EVisibility FFarmEditorModule::GetSeedWindowVisibility() const
+{
+	return bShowNestedWindow ? EVisibility::Visible : EVisibility::Hidden;
 }
 
 void FFarmEditorModule::PluginButtonClicked()

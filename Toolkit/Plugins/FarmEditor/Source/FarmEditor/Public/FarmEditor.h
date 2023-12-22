@@ -27,6 +27,11 @@ private:
 
 	FReply CreateSeed();
 
+	FReply OpenSeedWindow();
+
+	EVisibility GetSeedWindowVisibility() const;
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
+
+	bool bShowNestedWindow = false;
 };
