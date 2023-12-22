@@ -20,7 +20,6 @@ public:
 	void PluginButtonClicked();
 	
 private:
-
 	void RegisterMenus();
 
 	TSharedRef<class SDockTab> OnSpawnPluginTab(const class FSpawnTabArgs& SpawnTabArgs);
@@ -34,4 +33,11 @@ private:
 	FReply OpenCropWindow();
 
 	FReply OpenSeedWindow();
+
+	EVisibility GetCropWindowVisibility() const;
+
+	EVisibility GetSeedWindowVisibility() const;
+private:
+	bool m_isCropWindowVisible = true;
+	bool m_isSeedWindowVisible = false;
 };

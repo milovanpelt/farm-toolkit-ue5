@@ -107,6 +107,7 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 						.HAlign(HAlign_Fill)
 						.VAlign(VAlign_Fill)
 						.Padding(FMargin(50.0f))
+						.Visibility_Raw(this, &FFarmEditorModule::GetCropWindowVisibility)
 						[
 							SNew(SButton)
 							.Text(LOCTEXT("CreateCropButton", "Create Crop"))
@@ -120,6 +121,7 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 						.HAlign(HAlign_Fill)
 						.VAlign(VAlign_Fill)
 						.Padding(FMargin(50.0f))
+						.Visibility_Raw(this, &FFarmEditorModule::GetSeedWindowVisibility)
 						[
 							SNew(SButton)
 							.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
@@ -148,16 +150,37 @@ FReply FFarmEditorModule::CreateSeed()
 
 FReply FFarmEditorModule::OpenCropWindow()
 {
-	
+
+	m_isCropWindowVisible = !m_isCropWindowVisible;
+
+	if (m_isCropWindowVisible)
+	{
+		m_isSeedWindowVisible = false;
+	}
+
 	return FReply::Handled();
 }
 
 FReply FFarmEditorModule::OpenSeedWindow()
 {
-	
+	m_isSeedWindowVisible = !m_isSeedWindowVisible;
+
+	if (m_isCropWindowVisible)
+	{
+		m_isCropWindowVisible = false;
+	}
 	return FReply::Handled();
 }
 
+EVisibility FFarmEditorModule::GetCropWindowVisibility() const
+{
+	return m_isCropWindowVisible ? EVisibility::Visible : EVisibility::Hidden;
+}
+
+EVisibility FFarmEditorModule::GetSeedWindowVisibility() const
+{
+	return m_isSeedWindowVisible ? EVisibility::Visible : EVisibility::Hidden;
+}
 
 void FFarmEditorModule::PluginButtonClicked()
 {
