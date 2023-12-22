@@ -103,6 +103,7 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 					+ SOverlay::Slot()
 					.VAlign(VAlign_Fill)
 					[
+						// Crop window
 						SNew(SBorder)
 						.HAlign(HAlign_Fill)
 						.VAlign(VAlign_Fill)
@@ -110,13 +111,26 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 						.Visibility_Raw(this, &FFarmEditorModule::GetCropWindowVisibility)
 						[
 							SNew(SButton)
-							.Text(LOCTEXT("CreateCropButton", "Create Crop"))
 							.OnClicked_Raw(this, &FFarmEditorModule::CreateCrop)
+							.ButtonColorAndOpacity(FLinearColor(0.5f, 0.8f, 0.1f, 1.0f))
+							.DesiredSizeScale(FVector2D(2.0f, 2.0f))
+							[
+								// Aligning text in center of button
+								SNew(SHorizontalBox)
+								+ SHorizontalBox::Slot()
+								.HAlign(HAlign_Center)
+								.VAlign(VAlign_Center)
+								[
+									SNew(STextBlock)
+									.Text(LOCTEXT("CreateCropButton", "Create Crop"))
+								]
+							]
 						]
 					]
 					+ SOverlay::Slot()
 					.VAlign(VAlign_Fill)
 					[
+						// Seed window
 						SNew(SBorder)
 						.HAlign(HAlign_Fill)
 						.VAlign(VAlign_Fill)
@@ -124,8 +138,20 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 						.Visibility_Raw(this, &FFarmEditorModule::GetSeedWindowVisibility)
 						[
 							SNew(SButton)
-							.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
 							.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
+							.ButtonColorAndOpacity(FLinearColor(0.5f, 0.8f, 0.1f, 1.0f))
+							.DesiredSizeScale(FVector2D(2.0f, 2.0f))
+							[
+								// Aligning text in center of button
+								SNew(SHorizontalBox)
+								+ SHorizontalBox::Slot()
+								.HAlign(HAlign_Center)
+								.VAlign(VAlign_Center)
+								[
+									SNew(STextBlock)
+									.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
+								]
+							]
 						]
 					] // End of overlay slot
 				] // End of horizontalbox slot
@@ -150,7 +176,6 @@ FReply FFarmEditorModule::CreateSeed()
 
 FReply FFarmEditorModule::OpenCropWindow()
 {
-
 	m_isCropWindowVisible = !m_isCropWindowVisible;
 
 	if (m_isCropWindowVisible)
