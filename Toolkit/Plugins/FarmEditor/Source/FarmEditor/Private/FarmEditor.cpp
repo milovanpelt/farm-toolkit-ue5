@@ -103,56 +103,72 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 					+ SOverlay::Slot()
 					.VAlign(VAlign_Fill)
 					[
-						// Crop window
-						SNew(SBorder)
-						.HAlign(HAlign_Fill)
-						.VAlign(VAlign_Fill)
-						.Padding(FMargin(50.0f))
-						.Visibility_Raw(this, &FFarmEditorModule::GetCropWindowVisibility)
+						// Seed window
+						SNew(SBox)
+						.WidthOverride(400)
+						.HeightOverride(300)
 						[
-							SNew(SButton)
-							.OnClicked_Raw(this, &FFarmEditorModule::CreateCrop)
-							.ButtonColorAndOpacity(FLinearColor(0.5f, 0.8f, 0.1f, 1.0f))
-							.DesiredSizeScale(FVector2D(2.0f, 2.0f))
+							SNew(SBorder)
+							.Visibility_Raw(this, &FFarmEditorModule::GetCropWindowVisibility)
 							[
-								// Aligning text in center of button
-								SNew(SHorizontalBox)
-								+ SHorizontalBox::Slot()
+								SNew(SOverlay)
+								+ SOverlay::Slot()
 								.HAlign(HAlign_Center)
 								.VAlign(VAlign_Center)
+								.Padding(FMargin(0.0f, 75.0f, 0.0f, 0.0f))
 								[
-									SNew(STextBlock)
-									.Text(LOCTEXT("CreateCropButton", "Create Crop"))
+									SNew(SBox)
+									.WidthOverride(200)
+									.HeightOverride(50)
+									[
+										SNew(SButton)
+										.OnClicked_Raw(this, &FFarmEditorModule::CreateCrop)
+										.ButtonColorAndOpacity(FLinearColor(0.5f, 0.8f, 0.1f, 1.0f))
+										.HAlign(HAlign_Center)
+										.VAlign(VAlign_Center)
+										[
+											SNew(STextBlock)
+											.Text(LOCTEXT("CreateCropButton", "Create Crop"))
+										]
+									]
 								]
 							]
-						]
+						] // End of box slot
 					]
 					+ SOverlay::Slot()
 					.VAlign(VAlign_Fill)
 					[
 						// Seed window
-						SNew(SBorder)
-						.HAlign(HAlign_Fill)
-						.VAlign(VAlign_Fill)
-						.Padding(FMargin(50.0f))
-						.Visibility_Raw(this, &FFarmEditorModule::GetSeedWindowVisibility)
+						SNew(SBox)
+						.WidthOverride(400)
+						.HeightOverride(300)
 						[
-							SNew(SButton)
-							.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
-							.ButtonColorAndOpacity(FLinearColor(0.5f, 0.8f, 0.1f, 1.0f))
-							.DesiredSizeScale(FVector2D(2.0f, 2.0f))
+							SNew(SBorder)
+							.Visibility_Raw(this, &FFarmEditorModule::GetSeedWindowVisibility)
 							[
-								// Aligning text in center of button
-								SNew(SHorizontalBox)
-								+ SHorizontalBox::Slot()
+								SNew(SOverlay)
+								+SOverlay::Slot()
 								.HAlign(HAlign_Center)
 								.VAlign(VAlign_Center)
+								.Padding(FMargin(0.0f, 75.0f, 0.0f, 0.0f))
 								[
-									SNew(STextBlock)
-									.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
-								]
+									SNew(SBox)
+									.WidthOverride(200)
+									.HeightOverride(50)
+									[
+										SNew(SButton)
+										.OnClicked_Raw(this, &FFarmEditorModule::CreateSeed)
+										.ButtonColorAndOpacity(FLinearColor(0.5f, 0.8f, 0.1f, 1.0f))
+										.HAlign(HAlign_Center)
+										.VAlign(VAlign_Center)
+										[
+											SNew(STextBlock)
+											.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
+										]
+									]
+								]								
 							]
-						]
+						] // End of box slot
 					] // End of overlay slot
 				] // End of horizontalbox slot
 			
