@@ -40,4 +40,14 @@ private:
 private:
 	bool m_isCropWindowVisible = true;
 	bool m_isSeedWindowVisible = false;
+
+	// String data for seeds and crops
+	TArray<TSharedPtr<FString>> SeedNames;
+	TArray<TSharedPtr<FString>> CropNames;
+
+	// Listview Widget
+	TSharedPtr< SListView<TSharedPtr<FString>> > ListViewWidget;
+
+	// Generate row for the ListView Widget
+	TSharedRef<ITableRow> OnGenerateRowForList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable);
 };

@@ -34,6 +34,14 @@ void FFarmEditorModule::StartupModule()
 	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(FarmEditorTabName, FOnSpawnTab::CreateRaw(this, &FFarmEditorModule::OnSpawnPluginTab))
 		.SetDisplayName(LOCTEXT("FFarmEditorTabTitle", "FarmEditor"))
 		.SetMenuType(ETabSpawnerMenuType::Hidden);
+
+	FString SeedPrefix = "_Seed";
+	FString CropPrefix = "_Crop";
+	SeedNames.Add(MakeShareable(new FString(TEXT("Cauliflower" + SeedPrefix))));
+	SeedNames.Add(MakeShareable(new FString(TEXT("Kale" + SeedPrefix))));
+
+	CropNames.Add(MakeShareable(new FString(TEXT("Cauliflower" + CropPrefix))));
+	CropNames.Add(MakeShareable(new FString(TEXT("Kale" + CropPrefix))));
 }
 
 void FFarmEditorModule::ShutdownModule()
@@ -64,10 +72,35 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 	.TabRole(ETabRole::NomadTab)
 	[
 		SNew(SBorder)
+		.Padding(15)
 		.HAlign(HAlign_Center)
 		.VAlign(VAlign_Center)
 		[
 			SNew(SVerticalBox)
+			+SVerticalBox::Slot()
+			.HAlign(HAlign_Left)
+			.AutoHeight()
+			.Padding(5)
+			[
+				SNew(STextBlock)
+				.Text(LOCTEXT("ListViewTitle", "List of Seeds"))
+			]
+			
+			+SVerticalBox::Slot()
+			.HAlign(HAlign_Left)
+			.Padding(60.0f, 0, 0, 0) // Replace LeftPadding with the desired value
+			.FillHeight(1.0f)
+			[
+				SNew(SScrollBox)
+				+ SScrollBox::Slot()
+				.Padding(2)
+				[
+					SAssignNew(ListViewWidget, SListView<TSharedPtr<FString>>)
+					.ItemHeight(24)
+					.ListItemsSource(&SeedNames)
+					.OnGenerateRow_Raw(this, &FFarmEditorModule::OnGenerateRowForList)
+				]
+			]
 			+ SVerticalBox::Slot()
 			.AutoHeight()
 			[
@@ -166,7 +199,7 @@ TSharedRef<SDockTab> FFarmEditorModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 											.Text(LOCTEXT("CreateSeedButton", "Create Seed"))
 										]
 									]
-								]								
+								]							
 							]
 						] // End of box slot
 					] // End of overlay slot
@@ -221,6 +254,15 @@ EVisibility FFarmEditorModule::GetCropWindowVisibility() const
 EVisibility FFarmEditorModule::GetSeedWindowVisibility() const
 {
 	return m_isSeedWindowVisible ? EVisibility::Visible : EVisibility::Hidden;
+}
+
+TSharedRef<ITableRow> FFarmEditorModule::OnGenerateRowForList(TSharedPtr<FString> Item, const TSharedRef<STableViewBase>& OwnerTable)
+{
+	return SNew(STableRow<TSharedPtr<FString>>, OwnerTable)
+	[
+		SNew(STextBlock)
+		.Text(FText::FromString(*Item))
+	];
 }
 
 void FFarmEditorModule::PluginButtonClicked()
